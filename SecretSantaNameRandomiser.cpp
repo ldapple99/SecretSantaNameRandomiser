@@ -10,7 +10,7 @@
 
 using namespace std;
 
-//People nodes
+//person struct
 struct person{
     string name;
     string spouseName;
@@ -31,9 +31,11 @@ struct person{
 
 };
 
-//pairing function
+//namePairer - Takes and array of type person and it's size to assign and generate a list of paired persons
+//Parameters: (person) membersParticipating[], (int) sizeOf
+//Returns: NONE (void)
 void namePairer(person *membersParticipating[], int sizeOf){
-    //This will go through the array and will assign secret santas.
+    //Go through the array and will assign secret santas.
     srand(time(NULL));
     cout << endl;
     cout << "Secret Santas List: " << endl;
@@ -42,28 +44,28 @@ void namePairer(person *membersParticipating[], int sizeOf){
     cout << endl;
 
     for(int k = 0; k < sizeOf; k++){
-        //will first randomise a number
+        //Randomising a number between 0 and sizeOf
         int randPerson = rand() % sizeOf;
-        //if statments to see if that person's spouse is the same
+        //Checking to see if spouse is the same as the randomised person
         if(membersParticipating[k]->spouseName == membersParticipating[randPerson]->name){
             //then I need a new random number for it. 
             k--;
         }
         else{
-            //Now I need to check whether that person has already been assigned a secret santa
+            //Check if said person has already been assigned a secret santa
             if(membersParticipating[randPerson]->assignedSecretSanta == true){
-                //So I need another random number for the person
+                //Therefore need another random number for the person
                 k--;
             }
             else if(membersParticipating[randPerson]==membersParticipating[k]){
-                //So it's assigned to the same person, so need to try again
+                //It is assigned to the same person, so need to re-loop
                 k--;
             }
             else if(membersParticipating[randPerson]->secretSantaOf==membersParticipating[k]){
-                //So it needs to be assigned to a new person to reduce errors, unless it's the last one
+                //Neds to be assigned to a new person to reduce errors, unless it's the last one
                 int checkNum = k+1;
                 if(checkNum == sizeOf){
-                    //nvm, keep moving on
+                    //Keep moving on
                     membersParticipating[k]->secretSantaOf = membersParticipating[randPerson];
                     membersParticipating[randPerson]->secretSanta = membersParticipating[k];
                     cout << "*   " << membersParticipating[k]->name << " --> " << membersParticipating[randPerson]->name << endl;
@@ -75,7 +77,7 @@ void namePairer(person *membersParticipating[], int sizeOf){
                 }
             }
             else{
-                //So it passed all the inital conditions. So know I'll assign them and print said assignment
+                //Passed all the inital conditions. Now assigning them and print said assignment
                 membersParticipating[k]->secretSantaOf = membersParticipating[randPerson];
                 membersParticipating[randPerson]->secretSanta = membersParticipating[k];
                 cout << "*   " << membersParticipating[k]->name << " --> " << membersParticipating[randPerson]->name << endl;
@@ -90,23 +92,20 @@ void namePairer(person *membersParticipating[], int sizeOf){
 //main function (menu system for the user)
 
 int main(){
-    //Although before this I will ask for how many people are participating in the secret santa.
-    //First I will ask the names for the persons participating within this secret santa game and if they have a spouses or not
-    //I will then assign a node to the node array for each person within it.
-    //Afterwards I will call the namePairer function which will print out the names that are assigned using a random number generator
-    //using the following format: <SecretSanta> --> <Person to be Gifted>
-
+    //Asking how many will be participating
     int numParticipants;
     cout << "How many will be participating? (ex: 10)" << endl;
     cout << "(Note: Must be greater than or equal to 3)" << endl;
     cin >> numParticipants;
 
+    //Creating the participants array of type person
     person** participants;
     participants = new person*[numParticipants];
     for (int j = 0; j < numParticipants; j++){
         participants[j] = nullptr;
     }
-
+    
+    //Adding to the participants array
     cout << "Will now start adding to the list of participants..." << endl;
     for(int i = 0; i < numParticipants; i++){
         string personName;
@@ -127,16 +126,16 @@ int main(){
         participants[i] = newPerson;
     }
 
-    //now will becalling the the namePairer function
+    //Calling the namePairer() function
     cout << "Will now be assigning names..." << endl;
     namePairer(participants, numParticipants);
 
-    //Now to deconstruct the array
+    //Deconstructing the array
     for(int l = 0; l < numParticipants; l++){
         delete participants[l];
     }
     delete[] participants;
 
-    //Now to return the function
+    //Returning the main function
     return 0;
 }
