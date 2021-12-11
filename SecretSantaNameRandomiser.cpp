@@ -1,7 +1,7 @@
 //Name randomiser to be used in future secret santas. Will first ask for the names of all the participants and place it into an
-//array of people nodes (with if they have been paired yet and any spouses they cannot be paired with). I will then use a romdom 
-//number generator to access a certain element in the array to be paired with each name. I will then print this information out in a nice
-//list once it is finished for the user to easily read
+//array of people nodes (with if they have been paired yet and any spouses they cannot be paired with). Will then use a ramdom 
+//number generator to access a certain element in the array to be paired with each name. Afterwards will print this information out in a neat
+//list once for the user to easily read the assignments
 
 //Libraries
 #include <iostream>
